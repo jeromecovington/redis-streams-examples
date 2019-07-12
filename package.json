@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jeromecovington/redis-streams-examples#readme",
   "dependencies": {
+    "bluebird": "3.5.5",
     "redis": "^2.8.0"
   },
   "devDependencies": {
