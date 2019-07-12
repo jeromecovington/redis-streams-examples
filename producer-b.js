@@ -9,7 +9,7 @@ function main () {
     if (n > max) {
       // log informational stream growth statistics.
       const length = await client.xlenAsync(key)
-      console.log(`${date.getTime()}: Stream ${key} has ${length} messages.`)
+      console.log(`${date.getTime()}: Stream "${key}" has ${length} messages.`)
 
       process.exit()
     }
