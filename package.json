@@ -1,0 +1,22 @@
+{
+  "name": "redis-streams-examples",
+  "version": "0.0.1",
+  "description": "Examples of redis streams usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeromecovington/redis-streams-examples.git"
+  },
+  "author": "Jerome T.K. Covington",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeromecovington/redis-streams-examples/issues"
+  },
+  "homepage": "https://github.com/jeromecovington/redis-streams-examples#readme",
+  "dependencies": {
+    "redis": "^2.8.0"
+  }
+}
