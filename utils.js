@@ -4,7 +4,7 @@ const bluebird = require('bluebird')
 bluebird.promisifyAll(redis)
 
 const key = 'numbers'
-const client = redis.createClient()
+const client = () => redis.createClient()
 
 module.exports = {
   client,

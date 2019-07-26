@@ -5,8 +5,10 @@ function main () {
   let sum = 0
 
   async function sumWithRangeQuery () {
+    const c = client()
+
     // https://redis.io/commands/xrange
-    const msgs = await client.xrangeAsync(key, '-', '+')
+    const msgs = await c.xrangeAsync(key, '-', '+')
 
     if (!msgs) {
       console.log(`${date.getTime()}: Stream "${key}" has no messages.`)

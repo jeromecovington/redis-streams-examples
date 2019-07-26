@@ -3,7 +3,9 @@ const date = new Date()
 
 function main () {
   async function del () {
-    await client.delAsync(key)
+    const c = client()
+
+    await c.delAsync(key)
 
     console.log(`${date.getTime()}: Streams key "${key}" deleted.`)
     process.exit()
