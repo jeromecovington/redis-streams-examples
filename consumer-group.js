@@ -13,11 +13,13 @@ function main () {
     await c.xgroupAsync('CREATE', key, group, '0')
 
     for (let i = 0; i < members; i++) {
-      await createConsumer(`consumer-${i}`)
+      createConsumer(`consumer-${i}`)
     }
   }
 
   async function createConsumer (name) {
+    console.log(`${name} created.`)
+
     let timeout = 100
     let retries = 0
     const maxRetries = 5
