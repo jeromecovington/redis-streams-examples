@@ -1,12 +1,20 @@
-const { client, key } = require('./utils')
+const util = require('util')
+const { client, key, group } = require('./utils')
 
 main()
 
 function main () {
-  const group = 'primes'
   const members = 3
 
-  async function consume (name) {
+  consume()
+
+  async function consume () {
+    for (let i = 0; i < members; i++) {
+      await createConsumer(`consumer-${i}`)
+    }
+  }
+
+  async function createConsumer (name) {
     const c = client()
     let timeout = 100
     let retries = 0
@@ -14,8 +22,10 @@ function main () {
     let recovery = true
     let from = '0'
 
+    await c.xgroupAsync('CREATE', key, group, '$')
+
     while (true) {
-      const reply = c.xreadgroupAsync(
+      const reply = await c.xreadgroupAsync(
         'GROUP', group, name,
         'BLOCK', timeout,
         'STREAMS', key,
@@ -37,7 +47,7 @@ function main () {
       timeout = 100
 
       if (recovery) {
-        if (reply[0][1]) {
+        if (Array.isArray(reply) && reply.length && reply[0].length && reply[0][1].length) {
           console.log(`${name}: Recovering pending messages...`)
         } else {
           recovery = false
@@ -46,13 +56,17 @@ function main () {
         }
       }
 
-      reply.forEach(messages => {
-        messages.forEach(async message => {
-          const n = parseInt(message[1][1])
-          if (isPrime(n)) {
-            console.log(`${name}: ${n} is so prime!`)
+      Array.isArray(reply) && reply.forEach(messages => {
+        messages[1].forEach(async message => {
+          console.log('message')
+          console.log(util.inspect(message, false, null))
+          if (message[1] && message[1][1]) {
+            const n = parseInt(message[1][1])
+            if (isPrime(n)) {
+              console.log(`${name}: ${n} is so prime!`)
+            }
+            await c.xackAsync(key, group, message[0])
           }
-          await c.xackAsync(key, group, message[0])
         })
       })
     }
