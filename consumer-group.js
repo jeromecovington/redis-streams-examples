@@ -4,25 +4,25 @@ const { client, key, group } = require('./utils')
 main()
 
 function main () {
+  const c = client()
   const members = 3
 
   consume()
 
   async function consume () {
+    await c.xgroupAsync('CREATE', key, group, '0')
+
     for (let i = 0; i < members; i++) {
       await createConsumer(`consumer-${i}`)
     }
   }
 
   async function createConsumer (name) {
-    const c = client()
     let timeout = 100
     let retries = 0
     const maxRetries = 5
     let recovery = true
     let from = '0'
-
-    await c.xgroupAsync('CREATE', key, group, '$')
 
     while (true) {
       const reply = await c.xreadgroupAsync(
