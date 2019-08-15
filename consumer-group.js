@@ -10,6 +10,18 @@ function main () {
   consume()
 
   async function consume () {
+    /**
+     * https://redis.io/commands/xgroup
+     * Manages the consumer groups associated with a stream data structure.
+     *
+     * Arguments:
+     * 'CREATE' - We are creating a consumber group, there are other commands
+     *            you can pass, such as 'DESTROY' or 'DELCONSUMER'.
+     * key - The stream we are managing consumers for.
+     * group - The name of the group we are managing.
+     * '0' - Fetch the whole stream history. If we passed '$', we would fetch
+     *       starting from the last ID currently on the stream.
+     **/
     await c.xgroupAsync('CREATE', key, group, '0')
 
     for (let i = 0; i < members; i++) {
@@ -27,6 +39,19 @@ function main () {
     let from = '0'
 
     while (true) {
+      /**
+       * https://redis.io/commands/xreadgroup
+       * A special version of xread with support for consumer groups.
+       *
+       * Arguments:
+       * 'GROUP', group, name - The named consumer within our named group.
+       * 'BLOCK', timeout - The amount of time to block reading by, in order to
+       *                    manage polling.
+       *                    See - https://redis.io/commands/xread#blocking-for-data
+       * 'STREAMS', key - The stream our consumers are reading from.
+       * from - '0': from the beginning of the stream.
+       *        '>': from the tip of the stream.
+       **/
       const reply = await c.xreadgroupAsync(
         'GROUP', group, name,
         'BLOCK', timeout,
