@@ -85,13 +85,22 @@ function main () {
 
       Array.isArray(reply) && reply.forEach(messages => {
         messages[1].forEach(async message => {
-          console.log('message')
-          console.log(util.inspect(message, false, null))
+          console.log(`message: ${util.inspect(message, false, null)}`)
           if (message[1] && message[1][1]) {
             const n = parseInt(message[1][1])
             if (isPrime(n)) {
               console.log(`${name}: ${n} is so prime!`)
             }
+            /**
+             * https://redis.io/commands/xack
+             * Removes one or multiple messages from the pending entries list
+             * of a stream consumer group.
+             *
+             * Arguments:
+             * key - The stream we are removing the message(s) from.
+             * group - Our consumer group.
+             * message[0] - The id of the message we are removing from pending.
+             **/
             await c.xackAsync(key, group, message[0])
           }
         })
