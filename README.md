@@ -10,6 +10,7 @@ Inspired by [redisnycstreams](https://github.com/itamarhaber/redisnycstreams).
 ## Resources
 
 [Introduction to Redis Streams](https://redis.io/topics/streams-intro)
+
 [Redis commands](https://redis.io/commands)
 
 Easy redis docker setup:
