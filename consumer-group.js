@@ -15,7 +15,7 @@ function main () {
      * Manages the consumer groups associated with a stream data structure.
      *
      * Arguments:
-     * 'CREATE' - We are creating a consumber group, there are other commands
+     * 'CREATE' - We are creating a consumer group, there are other commands
      *            you can pass, such as 'DESTROY' or 'DELCONSUMER'.
      * key - The stream we are managing consumers for.
      * group - The name of the group we are managing.
